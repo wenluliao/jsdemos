@@ -79,6 +79,27 @@ function erWeiErJiTable() {
 			rows.totalSize += rows.section[id].length;
 		}
 	};
+	
+	/**
+	 * explain 移除一个维度对象 通过id
+	 * @param {Object} id
+	 */
+	this.delColumnOrRow = function(id){
+		var temobj = null;
+		if(rows.data.hasOwnProperty(id)) temobj = rows;
+		else temobj = columns;
+		for(var i = 0 ; i < temobj.ids.length ;i++){
+			if(id == temobj.ids[i]){
+				temobj.ids.splice(i,1);
+				break;
+			}
+		}
+		temobj.totalSize -= temobj.section[id].length;
+		delete temobj.data[id];
+		delete temobj.section[id];
+		delete temobj.columnsql[id];
+		delete temobj.columnordersql[id];
+	}
 	/**
 	 * explain 获得生成的虚拟table的完整html代码
 	 */
@@ -242,6 +263,7 @@ function erWeiErJiTable() {
 		tdspan($(div), rows.totalSize + 2, 0, 0, 2)
 			.css("background-color", "rgb(235, 243, 251)").html("合计");
 		tableStr = $(div).html();
+		$(div).remove();
 	};
 	/**
 	 * 生成表html代码段
