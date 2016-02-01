@@ -113,6 +113,8 @@ function erWeiErJiTable() {
 	 * explain 加载数据
 	 */
 	this.loadData = function() {
+		if(columns.ids.length == 0)
+			Ext.Msg.alert("注意！","横向维度至少需要添加一项！");
 		var data = {
 			"row": rows,
 			"column": columns
@@ -134,7 +136,7 @@ function erWeiErJiTable() {
 				/*获取合计列的索引*/
 				columnhjIndex = 2 + columns.totalSize;
 				/*预先给所有a标签的值设置默认值0*/
-				table.find("a").html("0");
+				table.find("u").html("0");
 
 				/*定义合计值临时存储对象*/
 				var columnhj = {};
@@ -156,7 +158,7 @@ function erWeiErJiTable() {
 						/*寻找所在列位置*/
 						var columnIndex = table.find("[filed_index=" + column + "_" + obj[column] + "]").attr("_index");
 						/*对目标设置值*/
-						table.find(".td_" + rowIndex + "_" + columnIndex + " a").html(result);
+						table.find(".td_" + rowIndex + "_" + columnIndex + " u").html(result);
 
 						/*计算合计值*/
 						if (!columnhj.hasOwnProperty(rowIndex)) columnhj[rowIndex] = 0;
@@ -167,12 +169,46 @@ function erWeiErJiTable() {
 				}
 
 				/*设置合计值*/
+				/*计算列合计*/
 				for (var i = 2 + columns.totalSize, j = 2; j < rows.totalSize+2; j++) {
-					table.find(".td_" + j + "_" + i+" a").html(columnhj[j]);
+					table.find(".td_" + j + "_" + i+"").html(columnhj[j]);
 				}
+				/*定义总合计数*/
+				var total = 0;
+				/*计算行合计*/
 				for (var i = 2, j = 2 + rows.totalSize; i < columns.totalSize+2; i++) {
-					table.find(".td_" + j + "_" + i+" a").html(rowhj[i]);
+					table.find(".td_" + j + "_" + i+"").html(rowhj[i]);
+					total+=rowhj[i];
 				}
+				/*设置总合计*/
+				table.find(".td_" + (rows.totalSize+2) + "_" + (columns.totalSize+2)+"").html(total);
+				
+				/*统计反查事件绑定*/
+				table.find("u").bind("click",function(event){
+					var table = $("#ewejtable");
+					var td = $(this).parent();
+					var rowIndex = td.attr("class").split("_")[1];
+					var colIndex = td.attr("class").split("_")[2];
+					var rowlt = table.find(".td_"+rowIndex+"_1");
+					var collt = table.find(".td_1_"+colIndex);
+					var rowid = rowlt.attr("filed_index").split("_")[0];
+					var colid = collt.attr("filed_index").split("_")[0];
+					
+					var wheresql = "";
+					if(rowlt.attr("section") != undefined){
+						wheresql += " "+rows.columnsql[rowid]+" = '"+rowlt.attr("section")+"'";
+					}
+					if(collt.attr("section") != undefined){
+						if(rowlt.attr("section") != undefined) wheresql+= " and ";
+						wheresql += " "+columns.columnsql[colid]+" = '"+collt.attr("section")+"'";
+					}
+					
+					var fanchaWindow = Ext.create("BeidaSoft.CTOOLS.ztfx.zhtj.FanchaWindow", {
+						wheresql:wheresql
+					});
+					fanchaWindow.Show({title:'人员信息列表'});
+					return false;
+				});
 			}
 		});
 
@@ -262,6 +298,11 @@ function erWeiErJiTable() {
 			.css("background-color", "rgb(235, 243, 251)").html("合计");
 		tdspan($(div), rows.totalSize + 2, 0, 0, 2)
 			.css("background-color", "rgb(235, 243, 251)").html("合计");
+			
+			
+		/*单元格样式居中*/
+		$(div).find("td").attr({"align":"center","valign":"middle"});
+		
 		tableStr = $(div).html();
 		$(div).remove();
 	};
@@ -290,7 +331,8 @@ function erWeiErJiTable() {
 		return '<td class="' + tdclass + '"></td>'
 	};
 	var outAHtml = function(href) {
-		return '<a href="' + href + '"></a>'
+		return '<u></u>'
+//		return '<a href="' + href + '"></a>'
 	};
 	var objsize = function(obj) {
 		var size = 0;
