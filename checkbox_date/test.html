@@ -1,38 +1,49 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
 		<script src="../js/jquery/jquery-1.12.0.js"></script>
-    <link href="skin/default/datepicker.css" rel="stylesheet" />
-    <script type="text/javascript" src="CheckBox_DataPicker.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $("#customdiv").mfDataPicker({ mouseOver: mover, mouseOut: mout, click: dclick });
-        });
-        function mover() {
-            var d = $(this);
-            var day = d.html();
-            var time = d.attr("data");
-            var arg = arguments[0];
-            d.addClass("WdayOn");
-        }
-        function mout() {
-            var d = $(this);
-            var day = d.html();
-            var time = d.attr("data");
-            var arg = arguments[0];
-            d.removeClass("WdayOn");
-        }
-        function dclick() {
-            var day = $(this).html();
-            var time = $(this).attr("data");
-            var arg = arguments[0];
-        }
-    </script>
+		<link href="skin/default/datepicker.css" rel="stylesheet" />
+		<script type="text/javascript" src="CheckBox_DataPicker.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$("#customdiv").mfDataPicker({
+					mouseOver: mover,
+					mouseOut: mout,
+					click: dclick,
+					checkbox: true
+				});
+			});
+
+			function mover() {
+				var d = $(this);
+				var day = d.html();
+				var time = d.attr("data");
+				var arg = arguments[0];
+				d.addClass("WdayOn");
+			}
+
+			function mout() {
+				var d = $(this);
+				var day = d.html();
+				var time = d.attr("data");
+				var arg = arguments[0];
+				d.removeClass("WdayOn");
+			}
+
+			function dclick() {
+				var day = $(this).html();
+				var time = $(this).attr("data");
+				var arg = arguments[0];
+			}
+		</script>
 	</head>
+
 	<body>
 		<div id="customdiv">
-        </div>
+		</div>
 	</body>
+
 </html>

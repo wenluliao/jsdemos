@@ -3,7 +3,7 @@
  */
 
 .WdateDiv{
-	width:180px;
+	width:300px;
 	background-color:#FFFFFF;
 	border:#bbb 1px solid;
 	padding:2px;
@@ -119,6 +119,7 @@
 .WdateDiv .MTitle{
 	background-color:#BDEBEE;
 }
+
 .WdateDiv .WdayTable2{
 	border-collapse:collapse;
 	border:#c5d9e8 1px solid;
@@ -131,8 +132,13 @@
 	line-height:20px;
 	border:#c5d9e8 1px solid;
 }
+
 .WdateDiv .WdayTable td{
-	text-align:center;
+	text-align:left;
+}
+
+.WdateDiv .MTitle td{
+	text-align: center;
 }
 
 .WdateDiv .Wday{
@@ -177,6 +183,11 @@
 
 .WdateDiv .WinvalidDay{
 	color:#aaa;
+}
+
+.WdateDiv .bottom span{
+	text-align: center;
+	display: block;
 }
 
 .WdateDiv #dpTime{
