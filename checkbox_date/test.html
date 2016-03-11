@@ -9,12 +9,13 @@
 		<script type="text/javascript" src="CheckBox_DataPicker.js"></script>
 		<script type="text/javascript">
 			$(document).ready(function() {
-				$("#customdiv").mfDataPicker({
+				var date1 = $("#customdiv").mfDataPicker({
 					mouseOver: mover,
 					mouseOut: mout,
 					click: dclick,
 					checkbox: true
 				});
+//				debugger
 			});
 
 			function mover() {

@@ -27,10 +27,10 @@
 		var dateOption = '<div id="dpTitle">';
 		dateOption += ' <div class="NavImg NavImgll"><a></a></div>';
 		dateOption += '<div class="NavImg NavImgl"><a></a></div>';
-		dateOption += '<div style="float: left;">';
+		dateOption += '<div style="float: left;padding-left:60px;">';
 		dateOption += '<div style="display: none;" class="menuSel MMenu"></div>';
 		dateOption += '<input class="yminput" value=""></div>';
-		dateOption += '<div style="float: left;">';
+		dateOption += '<div style="float: left;padding-left:2px;">';
 		dateOption += '<div style="display: none;" class="menuSel YMenu"></div>';
 		dateOption += '<input class="yminput" value=""></div>';
 		dateOption += '<div class="NavImg NavImgrr"><a></a></div>';
@@ -235,5 +235,6 @@
 		}, options);
 		$.mf.o.el = el;
 		$.mf.getDate();
+		return $.mf;
 	}
 })(jQuery);
