@@ -27,12 +27,8 @@
 		var dateOption = '<div id="dpTitle">';
 		dateOption += ' <div class="NavImg NavImgll"><a></a></div>';
 		dateOption += '<div class="NavImg NavImgl"><a></a></div>';
-		dateOption += '<div style="float: left;padding-left:60px;">';
-		dateOption += '<div style="display: none;" class="menuSel MMenu"></div>';
-		dateOption += '<input class="yminput" value=""></div>';
-		dateOption += '<div style="float: left;padding-left:2px;">';
-		dateOption += '<div style="display: none;" class="menuSel YMenu"></div>';
-		dateOption += '<input class="yminput" value=""></div>';
+		dateOption += '<div style="float: left;padding-left:70px;">';
+		dateOption += '<span class="TopicYearMonth">'+$.mf.o.year+"年"+$.mf.o.month+"月"+'</span></div>';
 		dateOption += '<div class="NavImg NavImgrr"><a></a></div>';
 		dateOption += '<div class="NavImg NavImgr"><a></a></div>';
 		dateOption += '<div style="float: right;"></div>';
@@ -117,7 +113,7 @@
 				$(this).click(function() {
 					var date = $.mf.o.date;
 					var month = parseInt($.mf.o.month, 10);
-					var opdate = new Date(date.getFullYear() + "/" + month + "/" + date.getDate());
+					var opdate = new Date(date.getFullYear() + "-" + month + "-" + date.getDate());
 					$.mf.getDate(opdate);
 				});
 			}
@@ -135,7 +131,7 @@
 					new Date().setMonth(month);
 					date.setMonth(month);
 					month = parseInt(date.getMonth(), 10) + 1;
-					var opdate = new Date(date.getFullYear() + "/" + month + "/" + date.getDate());
+					var opdate = new Date(date.getFullYear() + "-" + month + "-" + date.getDate());
 					$.mf.getDate(opdate);
 				});
 			}
@@ -204,25 +200,26 @@
 		/*根据天返回Date*/
 	$.mf.getDateByDay = function(day, isDate) {
 			month = parseInt($.mf.o.month, 10) + 1;
-			var temp = new Date($.mf.o.year + "/" + month + "/" + day);
+			var temp = new Date($.mf.o.year + "-" + month + "-" + day);
 			if (isDate)
 				return temp;
 			else
-				return $.mf.o.year + "/" + month + "/" + day
+				return $.mf.o.year + "-" + month + "-" + day
 		}
 		/*返回当前Date：yyyy-MM-dd*/
 	$.mf.getCurrentDate = function(isDate) {
 		var c = new Date();
 		month = parseInt(c.getMonth(), 10) + 1;
-		var temp = new Date(c.getFullYear() + "/" + month + "/" + c.getDate());
+		var temp = new Date(c.getFullYear() + "-" + month + "-" + c.getDate());
 		if (isDate)
 			return temp;
 		else
-			return c.getFullYear() + "/" + month + "/" + c.getDate();
+			return c.getFullYear() + "-" + month + "-" + c.getDate();
 	}
 	$.mf.strBuildDate = function() {
 		return $.mf.o.year + $.mf.o.dateSplitChar + $.mf.o.month + 1 + $.mf.o.dateSplitChar + $.mf.o.day;
 	}
+	/*用来创建复选框日历的工具*/
 	$.fn.mfDataPicker = function(options) {
 //		debugger;
 		var el = $(this.get(0));
@@ -236,5 +233,16 @@
 		$.mf.o.el = el;
 		$.mf.getDate();
 		return $.mf;
+	}
+	/*获取选中的天数*/
+	$.fn.mfGetSelectChecks = function(){
+		var el = $(this.get(0));
+		var dates = new Array();
+		var checks = el.find('.cbday:checked');
+		for (var index = 0 ; index < checks.length ; index++) {
+			var checkBox = checks.eq(index);
+			dates.push(checkBox.parent().attr("data"));
+		}
+		return dates;
 	}
 })(jQuery);

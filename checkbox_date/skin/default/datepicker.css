@@ -255,3 +255,11 @@
 	margin-top:2px;
 	margin-right:1px;
 }
+.TopicYearMonth{
+	margin-left: 20px;
+	margin-right: 20px;
+	cursor: pointer;
+}
+.TopicYearMonth:hover{
+	background-color: #B0B7C5;
+}
