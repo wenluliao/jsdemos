@@ -160,7 +160,7 @@
 		var month_span = el.find(".month");
 		tym.bind("click",function(){
 			sm.css("display","block");
-			sm.bind("mouseout",function(){
+			sm.bind("mouseleave",function(){
 				sm.css("display","none");
 			})
 		});
