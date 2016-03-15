@@ -160,6 +160,9 @@
 		var month_span = el.find(".month");
 		tym.bind("click",function(){
 			sm.css("display","block");
+			sm.bind("mouseout",function(){
+				sm.css("display","none");
+			})
 		});
 		month_span.bind("click",function(){
 			var selectdate = new Date($.mf.o.year,$(this).attr("data"));
