@@ -1,12 +1,9 @@
-/* 
- * My97 DatePicker 4.8
- */
-
 .WdateDiv{
-	width:300px;
+	width:360px;
 	background-color:#FFFFFF;
 	border:#bbb 1px solid;
 	padding:2px;
+	position: relative;
 }
 
 .WdateDiv2{
@@ -19,6 +16,13 @@
 	cursor:pointer;
 	height:16px;
 	width:16px;
+}
+
+.WdateDiv .ShowYM{
+	float: left;
+	position: relative;
+	left: 27%;
+	margin-top: 2px;
 }
 
 .WdateDiv .NavImgll a{
@@ -133,8 +137,22 @@
 	border:#c5d9e8 1px solid;
 }
 
-.WdateDiv .WdayTable td{
-	text-align:left;
+.WdateDiv .WdayTable td.WeekNum{
+	text-align: center;
+}
+
+.WdateDiv .WdayTable td.Wday,.Wwday,.Wtoday{
+	position: relative;
+}
+
+.WdateDiv .WdayTable td .cbday{
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+
+.WdateDiv .WdayTable td .daynum{
+	margin-left: 18px;
 }
 
 .WdateDiv .MTitle td{
@@ -262,4 +280,41 @@
 }
 .TopicYearMonth:hover{
 	background-color: #B0B7C5;
+}
+
+.selectMonth{
+	position: absolute;
+	width: 175px;
+	height: 150px;
+	left: 100px;
+	z-index: 999;
+	display: none;
+}
+
+.selectMonth .smyear{
+	width: 160px;
+	height: 20px;
+	display: inline-block;
+	text-align: center;
+	background-color: #F0F6FD;
+	line-height: 20px;
+	cursor: pointer;
+}
+
+.selectMonth .smyear:hover{
+	background-color: #5BC0DE;
+}
+
+.selectMonth .month{
+	width: 40px;
+	height: 40px;
+	display: inline-block;
+	text-align: center;
+	line-height: 40px;
+	background-color: #F0F6FD;
+	cursor: pointer;
+}
+
+.selectMonth .month:hover{
+	background-color: #DFECFA;
 }

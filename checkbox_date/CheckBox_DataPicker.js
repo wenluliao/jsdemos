@@ -21,14 +21,16 @@
 		click: null,
 		checkbox: false
 	}
+	/*初始化dom对象和常用内部对象*/
 	$.mf.buildDater = function() {
 		var dateContainer = $("<div class='WdateDiv'></div>");
 		//操作组容器
 		var dateOption = '<div id="dpTitle">';
 		dateOption += ' <div class="NavImg NavImgll"><a></a></div>';
 		dateOption += '<div class="NavImg NavImgl"><a></a></div>';
-		dateOption += '<div style="float: left;padding-left:70px;">';
-		dateOption += '<span class="TopicYearMonth">'+$.mf.o.year+"年"+$.mf.o.month+"月"+'</span></div>';
+		dateOption += '<div class="ShowYM">';
+		dateOption += '<span class="TopicYearMonth">'+$.mf.o.year+"年"+($.mf.o.month+1)+"月"+'</span></div>';
+		dateContainer.append("<div class='selectMonth'><span class='smyear'>"+$.mf.o.year+"</span><span class='month' data='0'>1月</span><span class='month' data='1'>2月</span><span class='month' data='2'>3月</span><span class='month' data='3'>4月</span><span class='month' data='4'>5月</span><span class='month' data='5'>6月</span><span class='month' data='6'>7月</span><span class='month' data='7'>8月</span><span class='month' data='8'>9月</span><span class='month' data='9'>10月</span><span class='month' data='10'>11月</span><span class='month' data='11'>12月</span></div>");
 		dateOption += '<div class="NavImg NavImgrr"><a></a></div>';
 		dateOption += '<div class="NavImg NavImgr"><a></a></div>';
 		dateOption += '<div style="float: right;"></div>';
@@ -63,31 +65,31 @@
 		
 		
 		if(firstWeek != 0){
-			strDate += "<td class='WeekNum'>"+(++weeknum)+"</td>";
+			strDate += "<td class='WeekNum' width='50px'>"+(++weeknum)+"</td>";
 		}
 		/*填补空白日期*/
 		for (var i = 0; i < firstWeek; i++) {
-			strDate += "<td class='empty'></td>";
+			strDate += "<td class='empty' width='50px'></td>";
 		}
 		for (var i = 1; i <= daysInMonth; i++) {
 			var _day = $.mf.getDateByDay(i, false);
 			var week = $.mf.getWeek(i);
 			if (week == 6) {
 				if (_day == currDate)
-					strDate += "<td class='Wtoday' data='" + _day + "'>"+($.mf.o.checkbox?"<input type='checkbox' class='cbday'>":"")+"<span class='daynum'>" + i + "</span></td></tr>";
+					strDate += "<td class='Wtoday' width='50px' data='" + _day + "'>"+($.mf.o.checkbox?"<input type='checkbox' class='cbday'>":"")+"<span class='daynum'>" + i + "</span></td></tr>";
 				else
-					strDate += "<td class='Wwday' data='" + _day + "'>"+($.mf.o.checkbox?"<input type='checkbox' class='cbday'>":"")+"<span class='daynum'>" + i + "</span></td></tr>";
+					strDate += "<td class='Wwday' width='50px' data='" + _day + "'>"+($.mf.o.checkbox?"<input type='checkbox' class='cbday'>":"")+"<span class='daynum'>" + i + "</span></td></tr>";
 			} else if (week == 0) {
 				if (_day == currDate)
-					strDate += "<tr><td class='WeekNum'>"+(++weeknum)+"</td><td class='Wtoday' data='" + _day + "'>"+($.mf.o.checkbox?"<input type='checkbox' class='cbday'>":"")+"<span class='daynum'>" + i + "</span></td>";
+					strDate += "<tr><td width='50px' class='WeekNum'>"+(++weeknum)+"</td><td class='Wtoday' data='" + _day + "'>"+($.mf.o.checkbox?"<input type='checkbox' class='cbday'>":"")+"<span class='daynum'>" + i + "</span></td>";
 				else
-					strDate += "<tr><td class='WeekNum'>"+(++weeknum)+"</td><td class='Wwday' data='" + _day + "'>"+($.mf.o.checkbox?"<input type='checkbox' class='cbday'>":"")+"<span class='daynum'>" + i + "</span></td>";
+					strDate += "<tr><td width='50px' class='WeekNum'>"+(++weeknum)+"</td><td class='Wwday' data='" + _day + "'>"+($.mf.o.checkbox?"<input type='checkbox' class='cbday'>":"")+"<span class='daynum'>" + i + "</span></td>";
 				
 			} else {
 				if (_day == currDate)
-					strDate += "<td class='Wtoday' data='" + _day + "'>"+($.mf.o.checkbox?"<input type='checkbox' class='cbday'>":"")+"<span class='daynum'>" + i + "</span></td>";
+					strDate += "<td width='50px' class='Wtoday' data='" + _day + "'>"+($.mf.o.checkbox?"<input type='checkbox' class='cbday'>":"")+"<span class='daynum'>" + i + "</span></td>";
 				else
-					strDate += "<td class='Wday' data='" + _day + "'>"+($.mf.o.checkbox?"<input type='checkbox' class='cbday'>":"")+"<span class='daynum'>" + i + "</span></td>";
+					strDate += "<td width='50px' class='Wday' data='" + _day + "'>"+($.mf.o.checkbox?"<input type='checkbox' class='cbday'>":"")+"<span class='daynum'>" + i + "</span></td>";
 			}
 		}
 
@@ -98,6 +100,7 @@
 		strDate += '</tbody></table>';
 		dateContainer.append(strDate);
 		dateContainer.append("<div class='bottom'><span class='viewDateInfo'>"+$.mf.o.viewDateInfo+"</span></div>");
+		
 		//拼接当月时间结束
 		$.mf.o.el.html(dateContainer);
 		//bind handler
@@ -149,6 +152,20 @@
 		$("#tabAllDay td[class*='day']").mouseout($.mf.o.mouseOut);
 		$("#tabAllDay td[class*='day']").click($.mf.o.click);
 	}
+	/*初始化内部事件*/
+	$.mf.initEvent = function(){
+		var el = $.mf.o.el;
+		var tym = el.find(".TopicYearMonth");
+		var sm = el.find(".selectMonth");
+		var month_span = el.find(".month");
+		tym.bind("click",function(){
+			sm.css("display","block");
+		});
+		month_span.bind("click",function(){
+			var selectdate = new Date($.mf.o.year,$(this).attr("data"));
+			$.mf.getDate(selectdate);
+		})
+	}
 	$.mf.getDate = function(date) {
 			if (date == undefined || date == null)
 				date = new Date();
@@ -159,6 +176,7 @@
 			$.mf.o.strDate = $.mf.strBuildDate();
 			$.mf.o.date = date;
 			$.mf.buildDater();
+			$.mf.initEvent();
 		}
 		/*获取这天是今年的第几周*/
 	$.mf.getWeekNum = function(day) {
@@ -236,9 +254,9 @@
 	}
 	/*获取选中的天数*/
 	$.fn.mfGetSelectChecks = function(){
-		var el = $(this.get(0));
+		var cbdp = $(this.get(0));
 		var dates = new Array();
-		var checks = el.find('.cbday:checked');
+		var checks = cbdp.find('.cbday:checked');
 		for (var index = 0 ; index < checks.length ; index++) {
 			var checkBox = checks.eq(index);
 			dates.push(checkBox.parent().attr("data"));
