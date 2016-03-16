@@ -19,7 +19,8 @@
 		mouseOver: null,
 		mouseOut: null,
 		click: null,
-		checkbox: false
+		checkbox: false,
+		selectYear: 0 /*年份层选择的年份临时存放的位置*/
 	}
 	/*初始化dom对象和常用内部对象*/
 	$.mf.buildDater = function() {
@@ -29,8 +30,13 @@
 		dateOption += ' <div class="NavImg NavImgll"><a></a></div>';
 		dateOption += '<div class="NavImg NavImgl"><a></a></div>';
 		dateOption += '<div class="ShowYM">';
+		/*添加年月展示title*/
 		dateOption += '<span class="TopicYearMonth">'+$.mf.o.year+"年"+($.mf.o.month+1)+"月"+'</span></div>';
+		/*添加月份选择层*/
 		dateContainer.append("<div class='selectMonth'><span class='smyear'>"+$.mf.o.year+"</span><span class='month' data='0'>1月</span><span class='month' data='1'>2月</span><span class='month' data='2'>3月</span><span class='month' data='3'>4月</span><span class='month' data='4'>5月</span><span class='month' data='5'>6月</span><span class='month' data='6'>7月</span><span class='month' data='7'>8月</span><span class='month' data='8'>9月</span><span class='month' data='9'>10月</span><span class='month' data='10'>11月</span><span class='month' data='11'>12月</span></div>");
+		/*添加年份选择层*/
+		dateContainer.append('<div class="selectYear"><div class="d_syYear"><div class="NavImg NavImgl"><a></a></div><span class="syYear">2010</span><div class="NavImg NavImgr"><a></a></div></div><div class="d_year"><span class="year"></span><span class="year"></span><span class="year"></span><span class="year"></span><span class="year"></span><span class="year"></span><span class="year"></span><span class="year"></span><span class="year"></span><span class="year"></span></div></div>');
+		
 		dateOption += '<div class="NavImg NavImgrr"><a></a></div>';
 		dateOption += '<div class="NavImg NavImgr"><a></a></div>';
 		dateOption += '<div style="float: right;"></div>';
@@ -153,18 +159,86 @@
 	/*初始化内部事件*/
 	$.mf.initEvent = function(){
 		var el = $.mf.o.el;
+		/*获取标头年月对象*/
 		var tym = el.find(".TopicYearMonth");
+		/*获取月份选择层*/
 		var sm = el.find(".selectMonth");
-		var month_span = el.find(".month");
+		/*获取月份块*/
+		var month_span = sm.find(".month");
+		/*获取月份层中的年份标头对象*/
+		var smyear = sm.find(".smyear");
+		/*获取年份选择层*/
+		var sy = el.find(".selectYear");
+		/*获取年份层标头对象*/
+		var syyear = sy.find(".syYear");
+		/*获取年份块*/
+		var year_span = sy.find(".year");
+		/*获取年份层左箭头翻页对象*/
+		var year_left = sy.find(".NavImgl");
+		/*获取年份层右箭头翻页对象*/
+		var year_right = sy.find(".NavImgr");
+		
+		/*绑定年月点击事件 展示月份选择层*/
 		tym.bind("click",function(){
+			$.mf.o.selectYear = 0;
+			smyear.html($.mf.o.year);
 			sm.css("display","block");
-			sm.bind("mouseleave",function(){
-				sm.css("display","none");
-			})
 		});
+		/*绑定鼠标离开月份层事件*/
+		sm.bind("mouseleave",function(){
+			sm.css("display","none");
+		})
+		/*绑定月份块选择事件*/
 		month_span.bind("click",function(){
-			var selectdate = new Date($.mf.o.year,$(this).attr("data"));
+			var selectdate = new Date(($.mf.o.selectYear == 0)?$.mf.o.year:$.mf.o.selectYear,$(this).attr("data"));
 			$.mf.getDate(selectdate);
+		})
+		/*绑定年份表头点击事件 展示年份选择层*/
+		smyear.bind("click",function(){
+			var year = $.mf.o.year;
+			year-=year%10;
+			for(var i = 0 ;i < year_span.length;i++){
+				year_span.eq(i).attr("data",year);
+				year_span.eq(i).html(year++);
+			}
+			syyear.html($.mf.o.year);
+			sy.css("display","block");
+		})
+		/*绑定年份头表头点击事件 回到月份层*/
+		syyear.bind("click",function(){
+			sy.css("display","none");
+			sm.css("display","block");
+		})
+		/*绑定年份块选择事件*/
+		year_span.bind("click",function(){
+			$.mf.o.selectYear = $(this).attr("data");
+			smyear.html($.mf.o.selectYear);
+			sy.css("display","none");
+			sm.css("display","block");
+		})
+		/*绑定年份层左翻页事件*/
+		year_left.bind("click",function(){
+			var year = parseInt(syyear.html());
+			year-=10;
+			/*显示出翻页10年效果*/
+			syyear.html(year);
+			year-=year%10;
+			for(var i = 0 ;i < year_span.length;i++){
+				year_span.eq(i).attr("data",year);
+				year_span.eq(i).html(year++);
+			}
+		})
+		/*绑定年份层右翻页事件*/
+		year_right.bind("click",function(){
+			var year = parseInt(syyear.html());
+			year+=10;
+			/*显示出翻页10年效果*/
+			syyear.html(year);
+			year-=year%10;
+			for(var i = 0 ;i < year_span.length;i++){
+				year_span.eq(i).attr("data",year);
+				year_span.eq(i).html(year++);
+			}
 		})
 	}
 	$.mf.getDate = function(date) {

@@ -294,10 +294,10 @@
 .selectYear{
 	position: absolute;
 	width: 165px;
-	height: 220px;
+	height: 170px;
 	left: 100px;
 	z-index: 1000;
-	display: block;
+	display: none;
 }
 
 .selectMonth .smyear{
@@ -311,13 +311,14 @@
 }
 
 .selectYear .syYear{
-	width: 160px;
+	width: 128px;
 	height: 20px;
 	display: inline-block;
 	text-align: center;
-	background-color: #F0F6FD;
+	background-color: white;
 	line-height: 20px;
 	cursor: pointer;
+	float: left;;
 }
 
 .selectMonth .smyear:hover{
@@ -336,15 +337,26 @@
 
 .selectYear .year{
 	width: 80px;
-	height: 40px;
+	height: 30px;
 	display: inline-block;
 	text-align: center;
-	line-height: 40px;
-	background-color: #F0F6FD;
+	line-height: 30px;
+	background-color: #F0F0F0;
 	cursor: pointer;
 	float: left;
 }
 
 .selectMonth .month:hover{
 	background-color: #DFECFA;
+}
+
+.selectYear .year:hover{
+	background-color: #DFECFA;
+}
+
+.WdateDiv .d_syYear .NavImgl{
+	float: left;
+}
+.WdateDiv .d_syYear .NavImgr{
+	float: left;
 }
