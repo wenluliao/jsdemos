@@ -115,8 +115,8 @@
 			if (i == 1) {
 				$(this).click(function() {
 					var date = $.mf.o.date;
-					var month = parseInt($.mf.o.month, 10);
-					var opdate = new Date(date.getFullYear() + "-" + month + "-" + date.getDate());
+					var month = parseInt($.mf.o.month, 10)-1;
+					var opdate = new Date(date.getFullYear() , month , date.getDate());
 					$.mf.getDate(opdate);
 				});
 			}
@@ -132,9 +132,7 @@
 					var date = $.mf.o.date;
 					var month = parseInt($.mf.o.month, 10) + 1;
 					new Date().setMonth(month);
-					date.setMonth(month);
-					month = parseInt(date.getMonth(), 10) + 1;
-					var opdate = new Date(date.getFullYear() + "-" + month + "-" + date.getDate());
+					var opdate = new Date(date.getFullYear() , month , date.getDate());
 					$.mf.getDate(opdate);
 				});
 			}
