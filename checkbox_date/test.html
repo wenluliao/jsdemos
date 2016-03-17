@@ -10,40 +10,21 @@
 		<script type="text/javascript">
 			$(document).ready(function() {
 				var date1 = $("#customdiv").mfDataPicker({
-					mouseOver: mover,
-					mouseOut: mout,
-					click: dclick,
 					checkbox: true
 				});
-//				debugger
+				var date2 = $("#customdiv1").mfDataPicker({
+					checkbox: true
+				});
 			});
+			
 
-			function mover() {
-				var d = $(this);
-				var day = d.html();
-				var time = d.attr("data");
-				var arg = arguments[0];
-				d.addClass("WdayOn");
-			}
-
-			function mout() {
-				var d = $(this);
-				var day = d.html();
-				var time = d.attr("data");
-				var arg = arguments[0];
-				d.removeClass("WdayOn");
-			}
-
-			function dclick() {
-				var day = $(this).html();
-				var time = $(this).attr("data");
-				var arg = arguments[0];
-			}
 		</script>
 	</head>
 
 	<body>
 		<div id="customdiv">
+		</div>
+		<div id="customdiv1">
 		</div>
 	</body>
 
